@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lighthouse — the ADHD-AI operating system for generalists</title>
+<meta name="description" content="A research-grounded, AI-native starter pack for ADHD generalists. No superpower mythology. No course funnel. Just the system that works.">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --bg-2: #131829;
+    --bg-3: #1a2038;
+    --text: #f5f1e8;
+    --text-muted: #a8a39a;
+    --text-dim: #6b6660;
+    --accent: #f5a623;
+    --accent-soft: rgba(245, 166, 35, 0.1);
+    --accent-line: rgba(245, 166, 35, 0.3);
+    --border: rgba(245, 241, 232, 0.08);
+    --danger: #e26b6b;
+    --good: #7bc99a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .container { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(10, 14, 26, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav .container {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 24px;
+  }
+  .brand {
+    font-weight: 700; font-size: 18px; letter-spacing: -0.02em;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .brand-mark {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, var(--accent), #b87a18);
+    box-shadow: 0 0 18px var(--accent-line);
+  }
+  .nav-cta {
+    background: var(--accent); color: var(--bg);
+    padding: 8px 16px; border-radius: 8px;
+    font-weight: 600; font-size: 14px;
+  }
+  .nav-cta:hover { text-decoration: none; opacity: 0.9; }
+
+  /* HERO */
+  header.hero {
+    position: relative;
+    padding: 100px 0 80px;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; left: 50%; transform: translateX(-50%);
+    width: 1100px; height: 700px;
+    background: radial-gradient(ellipse at center, var(--accent-soft) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-content { position: relative; }
+  .eyebrow {
+    display: inline-block;
+    font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 24px;
+    font-weight: 600;
+  }
+  h1 {
+    font-size: clamp(36px, 6vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+    margin-bottom: 24px;
+    max-width: 780px;
+  }
+  h1 em {
+    font-style: normal;
+    color: var(--accent);
+    background: linear-gradient(135deg, var(--accent), #ffd47a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .lede {
+    font-size: 20px;
+    color: var(--text-muted);
+    max-width: 640px;
+    margin-bottom: 40px;
+  }
+  .cta-row {
+    display: flex; gap: 16px; flex-wrap: wrap; align-items: center;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 24px; border-radius: 10px;
+    font-weight: 600; font-size: 15px;
+    transition: transform 0.1s, opacity 0.1s;
+  }
+  .btn-primary {
+    background: var(--accent); color: var(--bg);
+  }
+  .btn-primary:hover { text-decoration: none; opacity: 0.92; transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { text-decoration: none; border-color: var(--accent-line); }
+  .hero-meta {
+    margin-top: 40px;
+    display: flex; gap: 32px; flex-wrap: wrap;
+    color: var(--text-dim); font-size: 14px;
+  }
+  .hero-meta span::before { content: "·"; margin-right: 12px; color: var(--accent); }
+  .hero-meta span:first-child::before { content: ""; margin: 0; }
+
+  /* SECTION BASE */
+  section { padding: 80px 0; border-top: 1px solid var(--border); }
+  section.tight { padding: 60px 0; }
+  .kicker {
+    font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 16px; font-weight: 600;
+  }
+  h2 {
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.15; letter-spacing: -0.02em;
+    margin-bottom: 24px; max-width: 720px;
+  }
+  h3 { font-size: 20px; margin-bottom: 12px; letter-spacing: -0.01em; }
+  p.body { font-size: 17px; color: var(--text-muted); max-width: 680px; margin-bottom: 16px; }
+
+  /* HONEST PROBLEM */
+  .quotes {
+    display: grid; grid-template-columns: 1fr; gap: 16px;
+    margin-top: 32px;
+  }
+  blockquote {
+    background: var(--bg-2);
+    border-left: 3px solid var(--danger);
+    padding: 20px 24px;
+    border-radius: 0 8px 8px 0;
+    font-size: 16px; color: var(--text);
+  }
+  blockquote .source {
+    display: block; margin-top: 10px;
+    font-size: 13px; color: var(--text-dim);
+  }
+  blockquote.good { border-left-color: var(--good); }
+
+  /* COMMANDS */
+  .commands {
+    display: grid; gap: 16px; margin-top: 32px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  .cmd {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: border-color 0.15s;
+  }
+  .cmd:hover { border-color: var(--accent-line); }
+  .cmd code {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 14px;
+    background: var(--bg-3);
+    color: var(--accent);
+    padding: 4px 8px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+  .cmd p { color: var(--text-muted); font-size: 15px; }
+
+  /* FRAMEWORK */
+  .framework {
+    margin-top: 40px;
+    display: grid; gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+  .frame-card {
+    padding: 28px;
+    background: var(--bg-2);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+  }
+  .frame-num {
+    display: inline-block;
+    width: 28px; height: 28px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 50%;
+    font-weight: 700; text-align: center; line-height: 28px;
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  .frame-card h3 { color: var(--text); }
+  .frame-card p { color: var(--text-muted); font-size: 15px; }
+
+  /* NOT-IN-IT LIST */
+  .not-in {
+    margin-top: 32px; display: grid; gap: 12px;
+  }
+  .not-in li {
+    list-style: none;
+    padding: 14px 18px;
+    background: var(--bg-2);
+    border-radius: 8px;
+    color: var(--text-muted);
+    border-left: 3px solid var(--text-dim);
+  }
+  .not-in li::before {
+    content: "✗ ";
+    color: var(--danger);
+    font-weight: 700;
+    margin-right: 6px;
+  }
+
+  /* COMPARISON TABLE */
+  .compare-wrap {
+    margin-top: 32px;
+    background: var(--bg-2);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    overflow-x: auto;
+  }
+  table.compare {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width: 640px;
+  }
+  table.compare th, table.compare td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  table.compare th {
+    color: var(--text); font-weight: 600;
+    background: var(--bg-3);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  table.compare td:first-child {
+    color: var(--text); font-weight: 500;
+  }
+  table.compare td { color: var(--text-muted); }
+  table.compare tr:last-child td { border-bottom: none; }
+  .check { color: var(--good); font-weight: 700; }
+  .ex { color: var(--danger); font-weight: 700; }
+  .meh { color: var(--text-dim); }
+
+  /* FAQ */
+  details.faq {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 0;
+  }
+  details.faq:last-child { border-bottom: none; }
+  details.faq summary {
+    cursor: pointer;
+    font-weight: 600; font-size: 17px;
+    list-style: none;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary::after {
+    content: "+";
+    color: var(--accent);
+    font-size: 22px;
+    font-weight: 400;
+    transition: transform 0.2s;
+  }
+  details.faq[open] summary::after { transform: rotate(45deg); }
+  details.faq p {
+    margin-top: 12px;
+    color: var(--text-muted);
+    font-size: 16px;
+  }
+
+  /* FINAL CTA */
+  section.final {
+    text-align: center;
+    padding: 100px 0;
+    background:
+      radial-gradient(ellipse at top, var(--accent-soft) 0%, transparent 60%),
+      var(--bg);
+    border-top: 1px solid var(--border);
+  }
+  section.final h2 { margin-left: auto; margin-right: auto; }
+  section.final p.body { margin-left: auto; margin-right: auto; margin-bottom: 32px; }
+
+  footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 14px;
+    text-align: center;
+  }
+  footer a { color: var(--text-muted); }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    section { padding: 60px 0; }
+    header.hero { padding: 60px 0 50px; }
+    .cta-row { flex-direction: column; align-items: stretch; }
+    .btn { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      Lighthouse
+    </div>
+    <a href="#get" class="nav-cta">Get the starter pack →</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container hero-content">
+    <span class="eyebrow">An honest ADHD-AI operating system</span>
+    <h1>Stop being the person <em>with potential.</em><br>Become the person who ships.</h1>
+    <p class="lede">Lighthouse is a research-grounded operating system for ADHD generalists in the AI era. No superpower mythology. No course funnel. Just the smallest system that actually works — five slash commands and one folder.</p>
+    <div class="cta-row">
+      <a href="#get" class="btn btn-primary">Download the free starter pack</a>
+      <a href="#how" class="btn btn-ghost">See how it works</a>
+    </div>
+    <div class="hero-meta">
+      <span>Free · MIT</span>
+      <span>5 Claude Code commands</span>
+      <span>Obsidian + Notion ready</span>
+      <span>30-min setup</span>
+    </div>
+  </div>
+</header>
+
+<section id="problem">
+  <div class="container">
+    <div class="kicker">The honest version</div>
+    <h2>You don't have a "superpower." You have a different operating system — and most of the productivity advice was written for the other one.</h2>
+    <p class="body">For years the ADHD content economy has sold you variations of the same hit: <em>you're not broken, you're a hidden genius.</em> The dopamine feels good. The data doesn't support it. ADHD is correlated with shorter lifespans, higher unemployment, and real comorbidity load. Calling it a superpower has been documented to make people ask for fewer accommodations and burn out harder.</p>
+    <p class="body">Worse: AI is a near-perfect ADHD trap. Novelty + variable reward + no closure is the gambling-research formula. The same tool that can become your executive-function prosthetic can also become your new doom-scroll. Most ADHD-AI tools don't even acknowledge this. Lighthouse is built around it.</p>
+
+    <div class="quotes">
+      <blockquote>
+        "AI is a useful executive-function prosthetic, especially for divergent thinkers — but only if you build guards against it becoming your new doom-scroll."
+        <span class="source">— What Lighthouse actually believes</span>
+      </blockquote>
+      <blockquote class="good">
+        Backed by Russell Barkley's executive function model, William Dodson's interest-based nervous system framework (PINCH), and METR's 2026 task-horizon data. Not by influencer testimonials.
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="container">
+    <div class="kicker">What's in the box</div>
+    <h2>Five commands. One folder. That's the whole product.</h2>
+    <p class="body">Lighthouse runs in your terminal via Claude Code. Five slash commands handle the entire ADHD execution loop, from morning activation to post-interruption recovery. Your data lives locally in plain markdown — yours forever, no SaaS lock-in, no cloud sync, no vendor controlling your second brain.</p>
+
+    <div class="commands">
+      <div class="cmd">
+        <code>/morning</code>
+        <h3>Daily activation</h3>
+        <p>Reads your inbox, energy log, and convergence bet. Writes today's ONE priority and three micro-tasks. Ends on the first 15-minute step. Doing requires zero decisions.</p>
+      </div>
+      <div class="cmd">
+        <code>/energy ±3 &lt;activity&gt;</code>
+        <h3>Energy ledger</h3>
+        <p>3-second logging surface. Builds the dataset that tells you which activities actually light you up — not which ones you've been told should.</p>
+      </div>
+      <div class="cmd">
+        <code>/brain-dump</code>
+        <h3>Triage with bite</h3>
+        <p>Takes a chaotic dump and sorts it into today/week/someday/<em>delete</em>. Picks ONE 15-minute first step. No options. No alternatives. Commitment.</p>
+      </div>
+      <div class="cmd">
+        <code>/sync</code>
+        <h3>Evening off-ramp</h3>
+        <p>Eight-line review. What got done, what rolled, tomorrow's draft priority, one reflection question answerable in 30 seconds. Ends with the literal word "Sleep."</p>
+      </div>
+      <div class="cmd">
+        <code>/resume</code>
+        <h3>Post-interruption recovery</h3>
+        <p>The killer command. After a kid, a Slack ping, a doom-scroll: "you were doing X, your next step was Y, do this micro-action now." Re-enter without spiraling.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="framework">
+  <div class="container">
+    <div class="kicker">The two-part framework</div>
+    <h2>Find your goals like a generalist. Execute on them like a system.</h2>
+    <p class="body">Most productivity tools assume you already know what you should be doing. Lighthouse assumes you don't — because if you have ADHD and a half-dozen abandoned obsessions, you probably don't. Two artifacts solve that.</p>
+
+    <div class="framework">
+      <div class="frame-card">
+        <div class="frame-num">1</div>
+        <h3>The Obsession Audit</h3>
+        <p>A one-sitting, 60-minute exercise that surfaces every rabbit hole you've gone deep on in the last decade. Tag them with five symbols. Find the intersection of <strong>still-alive + monetizable + naturally-good</strong>. That intersection is the lane no one else can compete with you in.</p>
+      </div>
+      <div class="frame-card">
+        <div class="frame-num">2</div>
+        <h3>The Convergence Bet</h3>
+        <p>Pick ONE intersection of two lanes. Commit to ONE quarter — not forever. Ship one public artifact a week from that intersection. ADHD brains can't do "forever." They can do "until July."</p>
+      </div>
+      <div class="frame-card">
+        <div class="frame-num">3</div>
+        <h3>The Energy Ledger</h3>
+        <p>Two weeks of data points. Score everything you do from −3 to +3. Run it through Gemini. The pattern that emerges is more honest than any goal-setting workshop ever was. ADHDers run on energy, not discipline.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="not-in">
+  <div class="container">
+    <div class="kicker">Anti-features</div>
+    <h2>What Lighthouse deliberately does not have.</h2>
+    <p class="body">The features below are how every other ADHD productivity tool fails. Their absence here is the point.</p>
+
+    <ul class="not-in">
+      <li>No habit tracker (the energy ledger replaces it — better signal, less guilt)</li>
+      <li>No goal hierarchy with quarterly OKRs nested inside annual themes (one quarterly bet, that's it)</li>
+      <li>No streak counter (streaks weaponize shame; we want 48-hour-recovery, not 365-day perfection)</li>
+      <li>No infinite "AI chat" interface (every prompt has an output spec; no slot-machine sessions)</li>
+      <li>No customization gallery (30-min setup, 90-day freeze, no themes, no plugins beyond two)</li>
+      <li>No body-doubling video calls (use Focusmate; they already nailed it)</li>
+      <li>No cloud sync, no account, no email capture (free means free — your data is yours)</li>
+      <li>No course upsell, no Discord lock-in, no "premium tier" (one free pack, done)</li>
+    </ul>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="container">
+    <div class="kicker">vs. the alternatives</div>
+    <h2>How it stacks against everything else you've tried.</h2>
+    <div class="compare-wrap">
+      <table class="compare">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Lighthouse</th>
+            <th>ADHD courses</th>
+            <th>Notion / Sunsama</th>
+            <th>Plain ChatGPT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Cost</td>
+            <td class="check">Free</td>
+            <td>$200–$1,000</td>
+            <td>$10–20/mo</td>
+            <td>$20/mo</td>
+          </tr>
+          <tr>
+            <td>Setup time</td>
+            <td class="check">30 min</td>
+            <td>Days</td>
+            <td>Hours (and growing)</td>
+            <td>None</td>
+          </tr>
+          <tr>
+            <td>Honest about ADHD as deficit, not superpower</td>
+            <td class="check">Yes</td>
+            <td class="ex">Rarely</td>
+            <td class="meh">Doesn't address ADHD</td>
+            <td class="meh">N/A</td>
+          </tr>
+          <tr>
+            <td>AI dopamine-trap guards</td>
+            <td class="check">Built in</td>
+            <td class="ex">No</td>
+            <td class="ex">No</td>
+            <td class="ex">No (it IS the trap)</td>
+          </tr>
+          <tr>
+            <td>Goal discovery (not just task management)</td>
+            <td class="check">Yes</td>
+            <td class="check">Yes</td>
+            <td class="ex">Just task mgmt</td>
+            <td class="meh">Conversational only</td>
+          </tr>
+          <tr>
+            <td>Customization rabbit hole risk</td>
+            <td class="check">Locked at 30 min</td>
+            <td class="meh">Low</td>
+            <td class="ex">Catastrophic</td>
+            <td class="meh">Low</td>
+          </tr>
+          <tr>
+            <td>Local-only data, no vendor lock-in</td>
+            <td class="check">Yes</td>
+            <td class="ex">Course platform</td>
+            <td class="ex">Cloud-locked</td>
+            <td class="ex">OpenAI servers</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="container">
+    <div class="kicker">FAQ</div>
+    <h2>Anticipated objections.</h2>
+
+    <details class="faq">
+      <summary>Do I need to be technical to use this?</summary>
+      <p>Yes — at the level of "comfortable installing Claude Code and running terminal commands." If you can clone a GitHub repo and run <code class="mono">npm install</code>, you can use Lighthouse. If those are foreign words, the framework still works, but you'd run it with Notion-only and ChatGPT instead of the slash commands.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Why not just use Notion AI or ChatGPT directly?</summary>
+      <p>You can. Many ADHDers do. The thing those tools lack is structural friction against the ADHD-AI dopamine trap — the variable-reward feedback loop that turns "I'll just plan this real quick" into a three-hour spiral. Lighthouse's slash commands have output specs and termination points. They run, they finish, you go do the work.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Is this just a markdown file? It can't be that simple.</summary>
+      <p>It is that simple. ADHD productivity systems fail because they're too complex. Lighthouse is the minimum viable structure to run the actual framework. The complexity lives in the <em>discipline</em> of using it for 90 days without modifying it — which sounds easier than it is.</p>
+    </details>
+
+    <details class="faq">
+      <summary>What if I don't have ADHD but think I have ADHD-shaped problems?</summary>
+      <p>Most of this works for non-ADHD generalists too. Some pieces (the dopamine-trap guards, the interest-based nervous system framing) are sharper for ADHD specifically. The core — convergence bet, energy ledger, /morning command — works for anyone who has too many obsessions and not enough output.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Is there a paid version coming?</summary>
+      <p>Maybe. The Phase 2 plan includes anti-trap features (focus-block timer, customization-paralysis detector, AI-usage meter) that would justify a one-time Gumroad purchase. But the Phase 0/1 starter pack is free forever. If you want updates, watch the GitHub repo or follow the build-in-public posts.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Is this a substitute for medication, therapy, or diagnosis?</summary>
+      <p>No. Lighthouse is a tool. ADHD is a clinical condition with real biological underpinnings. If you're undiagnosed and suffering, the highest-leverage move is finding a clinician — not a productivity system. Lighthouse works <em>alongside</em> treatment, not instead of it.</p>
+    </details>
+  </div>
+</section>
+
+<section id="get" class="final">
+  <div class="container">
+    <div class="kicker">Get the starter pack</div>
+    <h2>Free. MIT-licensed. Ten files. Ready in thirty minutes.</h2>
+    <p class="body">No email capture. No "join the waitlist." Download, open the folder in Obsidian, run <code class="mono">/morning</code>. That's day one.</p>
+    <div class="cta-row" style="justify-content: center;">
+      <a href="#" class="btn btn-primary">Download starter pack (.zip)</a>
+      <a href="#" class="btn btn-ghost">Star on GitHub</a>
+    </div>
+    <p style="margin-top: 32px; color: var(--text-dim); font-size: 14px;">
+      Built by someone with ADHD and a stubborn refusal to buy another course.<br>
+      Use it. Fork it. Steal the framework. The system belongs to anyone who needs it.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Lighthouse · MIT · No tracking on this page · No newsletter signup<br>
+    Sources cited in the research-backed plan: METR · Russell Barkley · William Dodson · ADDitude · ADD Resource Center</p>
+  </div>
+</footer>
+
+</body>
+</html>
