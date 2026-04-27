@@ -1,0 +1,12 @@
+{
+  "name": "lighthouse-adhd",
+  "version": "1.0.0",
+  "description": "Lighthouse — the ADHD-AI operating system for generalists. Free starter pack and landing page.",
+  "private": true,
+  "scripts": {
+    "start": "npx --yes serve@14 -s . -l ${PORT:-3000} --no-clipboard"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

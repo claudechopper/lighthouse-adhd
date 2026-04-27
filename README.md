@@ -1,4 +1,13 @@
-# Lighthouse — ADHD-AI Starter Pack
+# 🚨 Lighthouse — the ADHD-AI operating system
+
+**An honest, research-grounded starter pack for ADHD generalists in the AI era.**
+No superpower mythology. No course funnel. No SaaS lock-in. Five slash commands, one folder, 30-minute setup.
+
+> _AI is a useful executive-function prosthetic, especially for divergent thinkers — but only if you build guards against it becoming your new doom-scroll._
+
+**[→ Live landing page](https://lighthouse-adhd.up.railway.app)** · **[Read the research-backed plan (PDF)](ADHD-AI-Game-Plan.pdf)**
+
+---
 
 This folder is the buildable version of the game plan. Everything you need to run the Phase 0 + Phase 1 workflow is here.
 
