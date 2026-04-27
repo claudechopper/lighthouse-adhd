@@ -1,0 +1,27 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Obsidian ephemeral state (keep notes, ignore workspace state)
+lighthouse-vault/.obsidian/workspace*
+lighthouse-vault/.obsidian/cache
+lighthouse-vault/.obsidian/.trash/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build artifacts (in case anything Python/JS gets added later)
+__pycache__/
+*.pyc
+node_modules/
+dist/
+build/
