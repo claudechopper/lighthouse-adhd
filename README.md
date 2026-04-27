@@ -5,7 +5,7 @@ No superpower mythology. No course funnel. No SaaS lock-in. Five slash commands,
 
 > _AI is a useful executive-function prosthetic, especially for divergent thinkers — but only if you build guards against it becoming your new doom-scroll._
 
-**[→ Live landing page](https://lighthouse-adhd.up.railway.app)** · **[Read the research-backed plan (PDF)](ADHD-AI-Game-Plan.pdf)**
+**[→ Live landing page](https://lighthouse-adhd-production.up.railway.app)** · **[Read the research-backed plan (PDF)](ADHD-AI-Game-Plan.pdf)**
 
 ---
 
